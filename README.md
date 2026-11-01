@@ -13,6 +13,7 @@ an accepted audit report on a live COT window.
 | `fj_cot_audit.py` | every FLAPJAX Transfer out of the public treasury over a UTC window, plus each recipient's first-BNB funder | `requests` |
 | `fj_verify.py` | re-verifies any published receipt list tx-by-tx, then checks treasury nonce continuity — a skipped nonce is impossible, so a complete nonce set proves a complete transfer list | stdlib only |
 | `fj_lp_scan.py` | Mint/Burn events on the FLAPJAX/WBNB pool over a block range (both V2 and V3 signatures — a wrong-signature scan is a classic false-zero) | `requests` |
+| `fj_buybacks.py` | verifies published buyback txs: exactly one FJ move, pool -> treasury, amount matches the claim to the unit; `--scan-hours` finds new buys | `requests` |
 
 ## Usage
 
@@ -34,6 +35,11 @@ python fj_verify.py nonces 73 312 hashes.txt
 # LP depth changes over a window or the last N days
 python fj_lp_scan.py 130940000 130989235
 python fj_lp_scan.py --days 3
+
+# verify the published round-2 buybacks (or any tx list)
+python fj_buybacks.py
+python fj_buybacks.py 0xd0d10d05fff2fd0e...
+python fj_buybacks.py --scan-hours 24
 ```
 
 ## Why these exist
@@ -64,4 +70,4 @@ python -m unittest test_fj_tools -v   # 9 offline tests, no network
 - FLAPJAX/WBNB pool: `0xcA93EC685b8623688E6B236f9068034B298c2150`
 
 No keys, no signing, no funds moved — public read-only RPCs only.
-License: CC0-1.0.
+License: MIT (see LICENSE).
