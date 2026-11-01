@@ -156,8 +156,11 @@ def main():
                     used.append(u.split("//")[1].split("/")[0])
             except Exception:
                 pass
-            if used and used[0].startswith("rpc-bsc.48.club"):
-                break        # trusted indexer answered — skip slow fallbacks
+            if used and used[0].startswith("rpc-bsc.48.club") and merged:
+                break        # trusted indexer answered with events — skip
+                # slow fallbacks. An EMPTY answer still gets verified by
+                # the other RPCs: a silent [] is the classic false zero
+                # (verified 11-01: two real buys hidden this way).
         if not used:
             raise SystemExit(
                 f"INCOMPLETE SCAN: chunk {a}..{z} got no RPC answer. "

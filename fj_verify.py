@@ -51,7 +51,8 @@ def cmd_balance():
     print('BNB %.8f' % bnb if bnb is not None else 'BNB: error')
 
 def load_hashes(path):
-    return [l.strip() for l in open(path) if l.strip().startswith('0x')]
+    with open(path) as f:
+        return [l.strip() for l in f if l.strip().startswith('0x')]
 
 def cmd_txfile(path, lo=None, hi=None):
     txs = {}
